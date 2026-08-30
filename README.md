@@ -2,9 +2,9 @@
 
 ### Steel Plant Energy Management Database
 
-EnergiTrack is a PostgreSQL database project designed to manage, track, and analyze energy consumption in a steel manufacturing plant.
+EnergiTrack is a PostgreSQL database project designed to manage and analyze energy consumption and production activities in a steel manufacturing plant.
 
-The project models energy consumption alongside production activities, industrial equipment, and maintenance records. The database is designed with future data analysis and machine learning applications in mind.
+The system focuses on the relationship between **energy consumption, production, equipment, maintenance, and raw materials**. Operational data is recorded at an hourly level to support meaningful analysis and future machine learning applications.
 
 > **Note:** This is a fictional project inspired by the general structure of steel manufacturing plants. It does not represent the internal systems or actual data of any specific company.
 
@@ -17,19 +17,22 @@ The main goals of EnergiTrack are to:
 * Design a realistic relational database for an industrial environment.
 * Practice database design and PostgreSQL development.
 * Track electricity and natural gas consumption.
-* Record production activities and output.
+* Record hourly production activities and output.
 * Manage industrial equipment and maintenance records.
-* Calculate and analyze energy consumption indicators.
-* Practice advanced SQL queries and database concepts.
-* Prepare structured data that can later be used for data analysis and machine learning.
+* Track raw material consumption.
+* Calculate energy costs and energy efficiency indicators.
+* Practice SQL queries and database concepts.
+* Prepare structured data for future data analysis and machine learning.
 
 ---
 
 ## 🏭 System Overview
 
-The system focuses on the relationship between **production, equipment, and energy consumption** within a steel manufacturing plant.
+The system models the main operational aspects of a fictional steel manufacturing plant.
 
-The simplified structure of the system is:
+The plant consists of several production units, each containing industrial equipment used in the production process.
+
+The simplified structure is:
 
 ```text
 Steel Plant
@@ -48,13 +51,13 @@ Steel Plant
 │
 ├── Equipment
 │
-├── Energy Sources
+├── Energy
 │   ├── Electricity
 │   └── Natural Gas
 │
 ├── Production Records
 │
-├── Energy Consumption Records
+├── Material Consumption
 │
 └── Maintenance Records
 ```
@@ -65,11 +68,14 @@ Steel Plant
 
 * Manage production units and products
 * Manage industrial equipment
-* Record production quantities
-* Record energy consumption
+* Record hourly production quantities
+* Record hourly energy consumption
 * Support multiple energy sources
-* Track equipment maintenance
-* Analyze energy consumption by production unit
+* Track equipment maintenance and downtime
+* Record raw material consumption
+* Manage energy tariffs
+* Calculate energy costs
+* Analyze energy consumption by equipment and production unit
 * Calculate energy intensity
 * Generate analytical reports using SQL
 
@@ -77,17 +83,53 @@ Steel Plant
 
 ## 📊 Energy Analysis
 
-One of the main purposes of the database is to analyze the relationship between energy consumption and production.
+Energy consumption is recorded at the **equipment level**.
 
-For example, the system can be used to calculate:
+This allows the energy consumption of each production unit to be calculated from the consumption of its equipment without storing duplicate data.
 
-**Energy Intensity**
+For example:
+
+```text
+Hot Rolling
+│
+├── Furnace       → 5,000 kWh
+├── Rolling Mill  → 7,000 kWh
+└── Pump          → 1,000 kWh
+                    ─────────
+                    13,000 kWh
+```
+
+The system can be used to calculate indicators such as:
+
+### Energy Intensity
 
 ```text
 Energy Intensity = Energy Consumption / Production Output
 ```
 
-This allows the energy performance of different production units and time periods to be compared.
+### Energy Cost
+
+```text
+Energy Cost = Energy Consumption × Energy Tariff
+```
+
+These indicators can be analyzed across different equipment, production units, products, and time periods.
+
+---
+
+## ⏱️ Data Granularity
+
+Operational data is designed around **hourly records**.
+
+Examples include:
+
+* Hourly production
+* Hourly energy consumption
+* Hourly material consumption
+
+Maintenance records use precise start and end timestamps so that equipment downtime can be calculated when required.
+
+Derived values such as operating time and production-unit energy consumption are calculated from the underlying records rather than unnecessarily stored as duplicate data.
 
 ---
 
@@ -99,7 +141,7 @@ This allows the energy performance of different production units and time period
 
 ### Main Database Concepts
 
-The project will cover and demonstrate:
+The project will demonstrate:
 
 * Relational database design
 * Entity Relationship Diagram (ERD)
@@ -122,48 +164,55 @@ The project will cover and demonstrate:
 
 The project will use generated and fictional data designed to simulate realistic industrial operations.
 
-The generated data will include information such as:
+The generated data may include:
 
 * Production records
-* Energy consumption
-* Equipment usage
-* Maintenance activities
+* Energy consumption records
+* Equipment information
+* Maintenance records
+* Raw material consumption
 * Production units
+* Products
 * Energy sources
+* Energy tariffs
 
-The data is not intended to represent real operational data from any specific steel manufacturer.
+No real industrial or company data is used.
 
 ---
 
-## 🤖 Future Machine Learning Applications
+## 🤖 Future Data Analysis & Machine Learning
 
-The database is designed with future data analysis and machine learning projects in mind.
+The database is designed to provide a foundation for future data analysis and machine learning projects.
 
 Possible future applications include:
 
 ### Energy Consumption Prediction
 
-Predict future energy consumption based on:
+Predict future energy consumption based on historical operational data such as:
 
 * Production output
-* Operating hours
+* Energy consumption
 * Equipment information
-* Historical energy consumption
+* Operating conditions
 * Maintenance history
 
 ### Energy Anomaly Detection
 
 Identify unusual energy consumption patterns under similar production conditions.
 
-### Equipment Failure Prediction
+### Energy Efficiency Analysis
 
-Use equipment, maintenance, production, and energy data to investigate the possibility of predicting equipment failures.
+Analyze factors affecting energy consumption and identify production conditions associated with higher or lower energy efficiency.
 
-These applications are **future extensions** of the project and are not part of the initial database implementation.
+These applications are **future extensions** and are not part of the initial database implementation.
 
 ---
 
 ## 📁 Project Structure
+
+The project structure will evolve during development.
+
+The planned structure is:
 
 ```text
 EnergiTrack/
@@ -177,7 +226,6 @@ EnergiTrack/
 │
 ├── database/
 │   ├── schema.sql
-│   ├── constraints.sql
 │   ├── indexes.sql
 │   ├── views.sql
 │   └── queries.sql
@@ -191,7 +239,7 @@ EnergiTrack/
 └── .gitignore
 ```
 
-> The project structure may change as development progresses.
+> The actual structure may change as the project develops.
 
 ---
 
@@ -199,12 +247,12 @@ EnergiTrack/
 
 Possible future improvements include:
 
-* Expanding the analytical SQL queries
-* Adding more realistic generated data
+* Expanding analytical SQL queries
+* Generating larger and more realistic datasets
 * Creating a data analysis layer using Python and Pandas
 * Building a machine learning dataset from the database
 * Developing energy consumption prediction models
-* Adding visualization and reporting
+* Creating data visualizations and analytical dashboards
 
 ---
 
@@ -212,7 +260,7 @@ Possible future improvements include:
 
 **Status:** 🚧 In Development
 
-This project is being developed as a personal database engineering and data analysis project.
+EnergiTrack is being developed as a personal database engineering and data analysis project.
 
 ---
 
