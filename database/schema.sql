@@ -96,11 +96,10 @@ CREATE TABLE production_record (
     scrap_quantity NUMERIC(12, 2) NOT NULL DEFAULT 0
         CHECK (scrap_quantity >= 0),
 
-    FOREIGN KEY (production_unit_id)
-        REFERENCES production_unit(production_unit_id),
+    FOREIGN KEY (production_unit_id, product_id)
+    REFERENCES production_unit_product(production_unit_id, product_id),
 
-    FOREIGN KEY (product_id)
-        REFERENCES product(product_id)
+    UNIQUE (production_unit_id, product_id, timestamp)
 );
 
 CREATE TABLE raw_material (
@@ -147,7 +146,9 @@ CREATE TABLE energy_consumption (
         REFERENCES equipment(equipment_id),
 
     FOREIGN KEY (energy_source_id)
-        REFERENCES energy_source(energy_source_id)
+        REFERENCES energy_source(energy_source_id),
+
+    UNIQUE (equipment_id, energy_source_id, timestamp)
 );
 
 CREATE TABLE energy_tariff (
